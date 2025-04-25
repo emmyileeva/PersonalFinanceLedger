@@ -1,4 +1,6 @@
 package com.pluralsight;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 import java.time.LocalDateTime;
 
@@ -61,8 +63,15 @@ public class PersonalFinanceLedgerApp {
         // Format the deposit details
         String transactionLine = String.format("%s|%s|%s|%s|%.2f", date, time, description, vendor, depositAmount);
 
-        // Print transactionLine to test the output
-        System.out.println("Transaction Line: " + transactionLine);
+        // Save the deposit details to the transactions.csv file
+        String fileName = "transactions.csv";
+        try (FileWriter writer = new FileWriter(fileName, true)) {
+            writer.write(transactionLine + "\n");
+            System.out.println("Deposit added successfully! File updated: " + fileName);
+        } catch (IOException e) {
+            System.out.println("An error occurred while saving the deposit to: " + fileName);
+            e.printStackTrace();
+        }
     }
 
     // Method to handle making a payment
