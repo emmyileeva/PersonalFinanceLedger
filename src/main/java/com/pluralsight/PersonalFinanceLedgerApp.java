@@ -1,5 +1,6 @@
 package com.pluralsight;
 import java.util.Scanner;
+import java.time.LocalDateTime;
 
 public class PersonalFinanceLedgerApp {
     public static void main(String[] args) {
@@ -22,13 +23,13 @@ public class PersonalFinanceLedgerApp {
             // Handle the user's choice
             switch (choice) {
                 case "D":
-                    handleAddDeposit();
+                    handleAddDeposit(scanner);
                     break;
                 case "P":
-                    handleMakePayment();
+                    handleMakePayment(scanner);
                     break;
                 case "L":
-                    handleViewLedger();
+                    handleViewLedger(scanner);
                     break;
                 case "X":
                     System.out.println("Exiting, goodbye!");
@@ -39,17 +40,38 @@ public class PersonalFinanceLedgerApp {
     }
 
     // Method to handle adding a deposit
-    private static void handleAddDeposit() {
-        // Add logic
+    private static void handleAddDeposit(Scanner scanner) {
+        // Prompt the user for deposit details
+        System.out.print("Enter deposit description: ");
+        String description = scanner.nextLine();
+
+        // Prompt the user for vendor details
+        System.out.print("Enter vendor name: ");
+        String vendor = scanner.nextLine();
+
+        // Prompt the user for deposit amount
+        System.out.print("Enter deposit amount: ");
+        double depositAmount = Double.parseDouble(scanner.nextLine());
+
+        // Get the current date and time
+        LocalDateTime depositDateTime = LocalDateTime.now();
+        String date = depositDateTime.toLocalDate().toString();
+        String time = depositDateTime.toLocalTime().withNano(0).toString();
+
+        // Format the deposit details
+        String transactionLine = String.format("%s|%s|%s|%s|%.2f", date, time, description, vendor, depositAmount);
+
+        // Print transactionLine to test the output
+        System.out.println("Transaction Line: " + transactionLine);
     }
 
     // Method to handle making a payment
-    private static void handleMakePayment() {
+    private static void handleMakePayment(Scanner scanner) {
         // Add logic
     }
 
     // Method to handle viewing the ledger
-    private static void handleViewLedger() {
+    private static void handleViewLedger(Scanner scanner) {
         // Add logic
     }
 }
