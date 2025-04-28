@@ -1,5 +1,7 @@
 package com.pluralsight;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -91,8 +93,7 @@ public class LedgerServiceHelper {
         // Handle the user's choice
         switch (choice) {
             case "A":
-                System.out.println("Viewing all transactions...");
-                // Call a method to view all transactions
+                viewAllTransactions();
                 break;
             case "D":
                 System.out.println("Viewing deposits only...");
@@ -107,5 +108,42 @@ public class LedgerServiceHelper {
                 break;
         }
     }
+
+    // Method to handle viewing all transactions
+    public static void viewAllTransactions() {
+        // Read the transactions from the transactions.csv file
+        String fileName = "transactions.csv";
+
+        // Check if the file exists
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+            System.out.println("------ All Transactions ------");
+            String line;
+            while ((line = reader.readLine()) != null) {
+                // Split the line into fields
+                String[] fields = line.split("\\|");
+                if (fields.length == 5) {
+                    // Print the transaction details
+                    System.out.printf("Date: %s, Time: %s, Description: %s, Vendor: %s, Amount: %.2f%n",
+                            fields[0], fields[1], fields[2], fields[3], Double.parseDouble(fields[4]));
+                    System.out.println("-----------------------------------");
+                } else {
+                    System.out.println("Invalid transaction format: " + line);
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("An error occurred while reading the transactions from: " + fileName);
+            e.printStackTrace();
+        }
+    }
+
+    // Method to handle viewing deposits only
+    public static void viewDepositsOnly() {
+    }
+
+    // Method to handle viewing payments only
+    public static void viewPaymentsOnly() {
+    }
+
+
 }
 
