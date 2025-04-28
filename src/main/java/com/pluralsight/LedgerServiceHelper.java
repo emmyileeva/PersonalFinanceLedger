@@ -98,8 +98,7 @@ public class LedgerServiceHelper {
                 viewAllTransactions();
                 break;
             case "D":
-                System.out.println("Viewing deposits only...");
-                // Call a method to view deposits only
+                viewDepositsOnly();
                 break;
             case "P":
                 System.out.println("Viewing payments only...");
@@ -152,6 +151,44 @@ public class LedgerServiceHelper {
 
     // Method to handle viewing deposits only
     public static void viewDepositsOnly() {
+        // Read the transactions from the transactions.csv file
+        String fileName = "transactions.csv";
+        // Create a list to store the transactions
+        List<String> transactions = new ArrayList<>();
+
+        // Check if the file exists
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+            System.out.println("------ Deposits Only ------");
+
+            String line;
+            // Read each line from the file
+            while ((line = reader.readLine()) != null) {
+                if (line.trim().isEmpty()) {
+                    continue; // Skip empty lines
+                }
+                // Add the line to the transactions list
+                transactions.add(line);
+            }
+            // Print the transactions from newest to oldest
+            for (int i = transactions.size() - 1; i >= 0; i--) {
+                // Split the line into fields
+                String[] fields = transactions.get(i).split("\\|");
+                if (fields.length == 5) {
+                    // Print the transaction details
+                    double amount = Double.parseDouble(fields[4]);
+                    if (amount > 0) { // Only print deposit transactions (positive amounts)
+                        System.out.printf("Date: %s, Time: %s, Description: %s, Vendor: %s, Amount: %.2f%n",
+                                fields[0], fields[1], fields[2], fields[3], amount);
+                        System.out.println("-----------------------------------");
+                    }
+                } else {
+                    System.out.println("Invalid transaction format: " + transactions.get(i));
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("An error occurred while reading the transactions from: " + fileName);
+            e.printStackTrace();
+        }
     }
 
     // Method to handle viewing payments only
