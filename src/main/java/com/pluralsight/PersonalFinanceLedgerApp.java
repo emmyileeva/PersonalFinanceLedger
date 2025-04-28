@@ -1,5 +1,7 @@
 package com.pluralsight;
+
 import java.util.Scanner;
+
 import static com.pluralsight.LedgerServiceHelper.*;
 
 public class PersonalFinanceLedgerApp {
@@ -7,9 +9,11 @@ public class PersonalFinanceLedgerApp {
 
         // Initialize a Scanner object for user input
         try (Scanner scanner = new Scanner(System.in)) {
+
             // Initialize a boolean variable to control the main loop
             boolean running = true;
             while (running) {
+
                 // Display the main menu
                 System.out.println("------ Personal Finance Ledger ------");
                 System.out.println("D) Add Deposit");
@@ -43,4 +47,4 @@ public class PersonalFinanceLedgerApp {
             e.printStackTrace();
         }
     }
-    }
+}
