@@ -77,7 +77,35 @@ public class LedgerServiceHelper {
 
     // Method to handle viewing the ledger
     public static void handleViewLedger(Scanner scanner) {
-        // Add logic
+        // Display the ledger menu
+        System.out.println("------ View Ledger ------");
+        System.out.println("A) View All Transactions");
+        System.out.println("D) View Deposits Only");
+        System.out.println("P) View Payments Only");
+        System.out.println("0) Back to Main Menu");
+        System.out.println("Choose an option: ");
+
+        // Read the user's choice
+        String choice = scanner.nextLine().trim().toUpperCase();
+
+        // Handle the user's choice
+        switch (choice) {
+            case "A":
+                System.out.println("Viewing all transactions...");
+                // Call a method to view all transactions
+                break;
+            case "D":
+                System.out.println("Viewing deposits only...");
+                // Call a method to view deposits only
+                break;
+            case "P":
+                System.out.println("Viewing payments only...");
+                // Call a method to view payments only
+                break;
+            case "0":
+                System.out.println("Returning to main menu...");
+                break;
+        }
     }
 }
 
