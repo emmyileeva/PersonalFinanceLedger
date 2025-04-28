@@ -5,6 +5,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class LedgerServiceHelper {
@@ -113,21 +115,33 @@ public class LedgerServiceHelper {
     public static void viewAllTransactions() {
         // Read the transactions from the transactions.csv file
         String fileName = "transactions.csv";
+        // Create a list to store the transactions
+        List<String> transactions = new ArrayList<>();
 
         // Check if the file exists
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
             System.out.println("------ All Transactions ------");
+
             String line;
+            // Read each line from the file
             while ((line = reader.readLine()) != null) {
+                if (line.trim().isEmpty()) {
+                    continue; // Skip empty lines
+                }
+                // Add the line to the transactions list
+                transactions.add(line);
+            }
+            // Print the transactions from newest to oldest
+            for (int i = transactions.size() - 1; i >= 0; i--) {
                 // Split the line into fields
-                String[] fields = line.split("\\|");
+                String[] fields = transactions.get(i).split("\\|");
                 if (fields.length == 5) {
                     // Print the transaction details
                     System.out.printf("Date: %s, Time: %s, Description: %s, Vendor: %s, Amount: %.2f%n",
                             fields[0], fields[1], fields[2], fields[3], Double.parseDouble(fields[4]));
                     System.out.println("-----------------------------------");
                 } else {
-                    System.out.println("Invalid transaction format: " + line);
+                    System.out.println("Invalid transaction format: " + transactions.get(i));
                 }
             }
         } catch (IOException e) {
