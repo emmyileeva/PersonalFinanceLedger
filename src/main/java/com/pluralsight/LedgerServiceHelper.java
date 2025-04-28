@@ -1,5 +1,6 @@
 package com.pluralsight;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Scanner;
@@ -177,7 +178,7 @@ public class LedgerServiceHelper {
             // Handle the user's choice
             switch (choice) {
                 case "1":
-                    // Month to Date logic
+                    viewMonthToDateTransactions();
                     break;
                 case "2":
                     // Previous Month logic
@@ -200,5 +201,29 @@ public class LedgerServiceHelper {
         }
         return false; // Return to the previous menu
     }
-}
 
+    // Method to view month-to-date transactions
+    public static void viewMonthToDateTransactions() {
+        // Read all transactions from the ledger file
+        List<LedgerTransaction> transactions = LedgerFileService.readAllTransactions();
+        // Get the current date and time
+        LocalDateTime now = LocalDateTime.now();
+
+        System.out.println("------ Month to Date Transactions ------");
+
+        // Loop from newest to oldest
+        for (int i = transactions.size() - 1; i >= 0; i--) {
+            LedgerTransaction t = transactions.get(i);
+            LocalDate transactionDate = LocalDate.parse(t.getDate());
+
+            // Check if the transaction date is within the current month
+            if (transactionDate.getMonth() == now.getMonth() &&
+                    transactionDate.getYear() == now.getYear()) {
+                // Print transaction details
+                System.out.printf("Date: %s, Time: %s, Description: %s, Vendor: %s, Amount: %.2f%n",
+                        t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
+                System.out.println("-----------------------------------");
+            }
+        }
+    }
+}
