@@ -1,11 +1,6 @@
 package com.pluralsight;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -31,18 +26,11 @@ public class LedgerServiceHelper {
         String date = depositDateTime.toLocalDate().toString();
         String time = depositDateTime.toLocalTime().withNano(0).toString();
 
-        // Format the deposit details
-        String transactionLine = String.format("%s|%s|%s|%s|%.2f", date, time, description, vendor, depositAmount);
+        // Create a ledger transaction object
+        LedgerTransaction transaction = new LedgerTransaction(date, time, description, vendor, depositAmount);
 
-        // Save the deposit details to the transactions.csv file
-        String fileName = "transactions.csv";
-        try (FileWriter writer = new FileWriter(fileName, true)) {
-            writer.write(transactionLine + "\n");
-            System.out.println("Deposit added successfully! File updated: " + fileName);
-        } catch (IOException e) {
-            System.out.println("An error occurred while saving the deposit to: " + fileName);
-            e.printStackTrace();
-        }
+        // Save the deposit using ledgerFileService
+        LedgerFileService.addDeposit(transaction);
     }
 
     // Method to handle making a payment
@@ -65,18 +53,11 @@ public class LedgerServiceHelper {
         String date = paymentDateTime.toLocalDate().toString();
         String time = paymentDateTime.toLocalTime().withNano(0).toString();
 
-        // Format the payment details
-        String transactionLine = String.format("%s|%s|%s|%s|%.2f", date, time, description, vendor, -paymentAmount);
+        // Create a ledger transaction object with a negative amount for payment
+        LedgerTransaction transaction = new LedgerTransaction(date, time, description, vendor, -paymentAmount);
 
-        // Save the payment details to the transactions.csv file
-        String fileName = "transactions.csv";
-        try (FileWriter writer = new FileWriter(fileName, true)) {
-            writer.write(transactionLine + "\n");
-            System.out.println("Payment made successfully! File updated: " + fileName);
-        } catch (IOException e) {
-            System.out.println("An error occurred while saving the payment to: " + fileName);
-            e.printStackTrace();
-        }
+        // Save the transaction using LedgerFileService
+        LedgerFileService.addPayment(transaction);
     }
 
     // Method to handle viewing the ledger
@@ -122,124 +103,55 @@ public class LedgerServiceHelper {
 
     // Method to handle viewing all transactions
     public static void viewAllTransactions() {
-        // Read the transactions from the transactions.csv file
-        String fileName = "transactions.csv";
-        // Create a list to store the transactions
-        List<String> transactions = new ArrayList<>();
+        // Read all transactions from the ledger file
+        List<LedgerTransaction> transactions = LedgerFileService.readAllTransactions();
 
-        // Check if the file exists
-        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
-            System.out.println("------ All Transactions ------");
+        System.out.println("------ All Transactions ------");
 
-            String line;
-            // Read each line from the file
-            while ((line = reader.readLine()) != null) {
-                if (line.trim().isEmpty()) {
-                    continue; // Skip empty lines
-                }
-                // Add the line to the transactions list
-                transactions.add(line);
-            }
-            // Print the transactions from newest to oldest
-            for (int i = transactions.size() - 1; i >= 0; i--) {
-                // Split the line into fields
-                String[] fields = transactions.get(i).split("\\|");
-                if (fields.length == 5) {
-                    // Print the transaction details
-                    System.out.printf("Date: %s, Time: %s, Description: %s, Vendor: %s, Amount: %.2f%n",
-                            fields[0], fields[1], fields[2], fields[3], Double.parseDouble(fields[4]));
-                    System.out.println("-----------------------------------");
-                } else {
-                    System.out.println("Invalid transaction format: " + transactions.get(i));
-                }
-            }
-        } catch (IOException e) {
-            System.out.println("An error occurred while reading the transactions from: " + fileName);
-            e.printStackTrace();
+        // Loop from newest to oldest
+        for (int i = transactions.size() - 1; i >= 0; i--) {
+            LedgerTransaction t = transactions.get(i);
+
+            // Print transaction details
+            System.out.printf("Date: %s, Time: %s, Description: %s, Vendor: %s, Amount: %.2f%n",
+                    t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
+            System.out.println("-----------------------------------");
         }
     }
 
     // Method to handle viewing deposits only
     public static void viewDepositsOnly() {
-        // Read the transactions from the transactions.csv file
-        String fileName = "transactions.csv";
-        // Create a list to store the transactions
-        List<String> transactions = new ArrayList<>();
+        // Read deposits only from the ledger file
+        List<LedgerTransaction> deposits = LedgerFileService.readDepositsOnly();
 
-        // Check if the file exists
-        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
-            System.out.println("------ Deposits Only ------");
+        System.out.println("------ Deposits Only ------");
 
-            String line;
-            // Read each line from the file
-            while ((line = reader.readLine()) != null) {
-                if (line.trim().isEmpty()) {
-                    continue; // Skip empty lines
-                }
-                // Add the line to the transactions list
-                transactions.add(line);
-            }
-            // Print the transactions from newest to oldest
-            for (int i = transactions.size() - 1; i >= 0; i--) {
-                // Split the line into fields
-                String[] fields = transactions.get(i).split("\\|");
-                if (fields.length == 5) {
-                    // Print the transaction details
-                    double amount = Double.parseDouble(fields[4]);
-                    if (amount > 0) { // Only print deposit transactions (positive amounts)
-                        System.out.printf("Date: %s, Time: %s, Description: %s, Vendor: %s, Amount: %.2f%n",
-                                fields[0], fields[1], fields[2], fields[3], amount);
-                        System.out.println("-----------------------------------");
-                    }
-                } else {
-                    System.out.println("Invalid transaction format: " + transactions.get(i));
-                }
-            }
-        } catch (IOException e) {
-            System.out.println("An error occurred while reading the transactions from: " + fileName);
-            e.printStackTrace();
+        // Loop from newest to oldest
+        for (int i = deposits.size() - 1; i >= 0; i--) {
+            LedgerTransaction t = deposits.get(i);
+
+            // Print deposit details
+            System.out.printf("Date: %s, Time: %s, Description: %s, Vendor: %s, Amount: %.2f%n",
+                    t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
+            System.out.println("-----------------------------------");
         }
     }
 
     // Method to handle viewing payments only
     public static void viewPaymentsOnly() {
-        // Read the transactions from the transactions.csv file
-        String fileName = "transactions.csv";
-        // Create a list to store the transactions
-        List<String> transactions = new ArrayList<>();
+        // Read payments only from the ledger file
+        List<LedgerTransaction> payments = LedgerFileService.readPaymentsOnly();
 
-        // Check if the file exists
-        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
-            System.out.println("------ Payments Only ------");
+        System.out.println("------ Payments Only ------");
 
-            String line;
-            // Read each line from the file
-            while ((line = reader.readLine()) != null) {
-                if (line.trim().isEmpty()) {
-                    continue; // Skip empty lines
-                }
-                // Add the line to the transactions list
-                transactions.add(line);
-            }
-            // Print the transactions from newest to oldest
-            for (int i = transactions.size() - 1; i >= 0; i--) {
-                // Split the line into fields
-                String[] fields = transactions.get(i).split("\\|");
-                if (fields.length == 5) {
-                    // Print the transaction details
-                    double amount = Double.parseDouble(fields[4]);
-                    if (amount < 0) { // Only print payment transactions (negative amounts)
-                        System.out.printf("Date: %s, Time: %s, Description: %s, Vendor: %s, Amount: %.2f%n",
-                                fields[0], fields[1], fields[2], fields[3], amount);
-                        System.out.println("-----------------------------------");
-                    }
-                } else {
-                    System.out.println("Invalid transaction format: " + transactions.get(i));
-                }
-            }
-        } catch (IOException e) {
-            System.out.println("An error occurred while reading the transactions from: " + fileName);
-            e.printStackTrace();
+        // Loop from newest to oldest
+        for (int i = payments.size() - 1; i >= 0; i--) {
+            LedgerTransaction t = payments.get(i);
+
+            // Print payment details
+            System.out.printf("Date: %s, Time: %s, Description: %s, Vendor: %s, Amount: %.2f%n",
+                    t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
+            System.out.println("-----------------------------------");
         }
     }
 
