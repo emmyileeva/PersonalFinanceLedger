@@ -81,34 +81,42 @@ public class LedgerServiceHelper {
 
     // Method to handle viewing the ledger
     public static void handleViewLedger(Scanner scanner) {
-        // Display the ledger menu
-        System.out.println("------ View Ledger ------");
-        System.out.println("A) View All Transactions");
-        System.out.println("D) View Deposits Only");
-        System.out.println("P) View Payments Only");
-        System.out.println("R) Reports");
-        System.out.println("H) Back to Home Screen");
-        System.out.println("Choose an option: ");
+        // Initialize a boolean variable to control the ledger loop
+        boolean ledger = true;
+        while (ledger) {
+            // Display the ledger menu
+            System.out.println("------ View Ledger ------");
+            System.out.println("A) View All Transactions");
+            System.out.println("D) View Deposits Only");
+            System.out.println("P) View Payments Only");
+            System.out.println("R) Reports");
+            System.out.println("H) Back to Home Screen");
+            System.out.println("Choose an option: ");
 
-        // Read the user's choice
-        String choice = scanner.nextLine().trim().toUpperCase();
+            // Read the user's choice
+            String choice = scanner.nextLine().trim().toUpperCase();
 
-        // Handle the user's choice
-        switch (choice) {
-            case "A":
-                viewAllTransactions();
-                break;
-            case "D":
-                viewDepositsOnly();
-                break;
-            case "P":
-                viewPaymentsOnly();
-                break;
-            case "R":
-                // Display the reports menu
-                break;
-            case "H":
-                return; // Go back to the home screen
+            // Handle the user's choice
+            switch (choice) {
+                case "A":
+                    viewAllTransactions();
+                    break;
+                case "D":
+                    viewDepositsOnly();
+                    break;
+                case "P":
+                    viewPaymentsOnly();
+                    break;
+                case "R":
+                    boolean goToHome = handleReports(scanner);
+                    if (goToHome) {
+                        ledger = false; // Go back to the home screen
+                    }
+                    break;
+                case "H":
+                    ledger = false; // Exit the ledger loop
+                    break;
+            }
         }
     }
 
@@ -235,6 +243,50 @@ public class LedgerServiceHelper {
         }
     }
 
+    // Method to handle reports
+    public static boolean handleReports(Scanner scanner) {
+        // Initialize a boolean variable to control the reports loop
+        boolean reports = true;
+        while (reports) {
+            // Display the reports menu
+            System.out.println("------ Reports ------");
+            System.out.println("1) Month to Date");
+            System.out.println("2) Previous Month");
+            System.out.println("3) Year to Date");
+            System.out.println("4) Previous Year");
+            System.out.println("5) Search by Vendor");
+            System.out.println("0) Back to Ledger Menu");
+            System.out.println("H) Back to Home Screen");
+            System.out.print("Choose an option: ");
 
+            // Read the user's choice
+            String choice = scanner.nextLine().trim().toUpperCase();
+
+            // Handle the user's choice
+            switch (choice) {
+                case "1":
+                    // Month to Date logic
+                    break;
+                case "2":
+                    // Previous Month logic
+                    break;
+                case "3":
+                    // Year to Date logic
+                    break;
+                case "4":
+                    // Previous Year logic
+                    break;
+                case "5":
+                    // Search by Vendor logic
+                    break;
+                case "0":
+                    reports = false; // Go back to the ledger menu
+                    break;
+                case "H":
+                    return true; // Go back to the home screen
+            }
+        }
+        return false; // Return to the previous menu
+    }
 }
 

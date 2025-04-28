@@ -15,7 +15,7 @@ public class PersonalFinanceLedgerApp {
             while (running) {
 
                 // Display the main menu
-                System.out.println("------ Personal Finance Ledger ------");
+                System.out.println("------ Personal Finance Ledger Home Menu ------");
                 System.out.println("D) Add Deposit");
                 System.out.println("P) Make Payment (Debit)");
                 System.out.println("L) View Ledger");
