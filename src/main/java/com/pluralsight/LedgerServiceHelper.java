@@ -86,7 +86,8 @@ public class LedgerServiceHelper {
         System.out.println("A) View All Transactions");
         System.out.println("D) View Deposits Only");
         System.out.println("P) View Payments Only");
-        System.out.println("0) Back to Main Menu");
+        System.out.println("R) Reports");
+        System.out.println("H) Back to Home Screen");
         System.out.println("Choose an option: ");
 
         // Read the user's choice
@@ -103,9 +104,11 @@ public class LedgerServiceHelper {
             case "P":
                 viewPaymentsOnly();
                 break;
-            case "0":
-                System.out.println("Returning to main menu...");
+            case "R":
+                // Display the reports menu
                 break;
+            case "H":
+                return; // Go back to the home screen
         }
     }
 
