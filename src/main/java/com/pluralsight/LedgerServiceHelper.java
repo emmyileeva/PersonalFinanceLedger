@@ -1,4 +1,5 @@
 package com.pluralsight;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -186,7 +187,7 @@ public class LedgerServiceHelper {
                     viewYearToDateTransactions();
                     break;
                 case "4":
-                    // Previous Year logic
+                    viewPreviousYearTransactions();
                     break;
                 case "5":
                     // Search by Vendor logic
@@ -282,7 +283,26 @@ public class LedgerServiceHelper {
 
     // Method to view previous year transactions
     public static void viewPreviousYearTransactions() {
-        // Previous Year logic
+        // Read all transactions from the ledger file
+        List<LedgerTransaction> transactions = LedgerFileService.readAllTransactions();
+        // Get the previous year
+        int previousYear = LocalDate.now().getYear() - 1;
+
+        System.out.println("------ Previous Year Transactions ------");
+
+        // Loop from newest to oldest
+        for (int i = transactions.size() - 1; i >= 0; i--) {
+            LedgerTransaction t = transactions.get(i);
+            LocalDate transactionDate = LocalDate.parse(t.getDate());
+
+            // Check if the transaction date is within the previous year
+            if (transactionDate.getYear() == previousYear) {
+                // Print transaction details
+                System.out.printf("Date: %s, Time: %s, Description: %s, Vendor: %s, Amount: %.2f%n",
+                        t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
+                System.out.println("-----------------------------------");
+            }
+        }
     }
 
     // Method to search by vendor
