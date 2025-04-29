@@ -183,7 +183,7 @@ public class LedgerServiceHelper {
                     viewPreviousMonthTransactions();
                     break;
                 case "3":
-                    // Year to Date logic
+                    viewYearToDateTransactions();
                     break;
                 case "4":
                     // Previous Year logic
@@ -254,5 +254,39 @@ public class LedgerServiceHelper {
                 System.out.println("-----------------------------------");
             }
         }
+    }
+
+    // Method to view year-to-date transactions
+    public static void viewYearToDateTransactions() {
+        // Read all transactions from the ledger file
+        List<LedgerTransaction> transactions = LedgerFileService.readAllTransactions();
+        // Get the current year
+        int currentYear = LocalDate.now().getYear();
+
+        System.out.println("------ Year to Date Transactions ------");
+
+        // Loop from newest to oldest
+        for (int i = transactions.size() - 1; i >= 0; i--) {
+            LedgerTransaction t = transactions.get(i);
+            LocalDate transactionDate = LocalDate.parse(t.getDate());
+
+            // Check if the transaction date is within the current year
+            if (transactionDate.getYear() == currentYear) {
+                // Print transaction details
+                System.out.printf("Date: %s, Time: %s, Description: %s, Vendor: %s, Amount: %.2f%n",
+                        t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
+                System.out.println("-----------------------------------");
+            }
+        }
+    }
+
+    // Method to view previous year transactions
+    public static void viewPreviousYearTransactions() {
+        // Previous Year logic
+    }
+
+    // Method to search by vendor
+    public static void searchByVendor() {
+        // Search by Vendor logic
     }
 }
