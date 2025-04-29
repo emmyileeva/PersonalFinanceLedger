@@ -168,6 +168,7 @@ public class LedgerServiceHelper {
             System.out.println("3) Year to Date");
             System.out.println("4) Previous Year");
             System.out.println("5) Search by Vendor");
+            System.out.println("6) Custom Search");
             System.out.println("0) Back to Ledger Menu");
             System.out.println("H) Back to Home Screen");
             System.out.print("Choose an option: ");
@@ -191,6 +192,9 @@ public class LedgerServiceHelper {
                     break;
                 case "5":
                     searchByVendor(scanner);
+                    break;
+                case "6":
+                    customSearch(scanner);
                     break;
                 case "0":
                     reports = false; // Go back to the ledger menu
@@ -330,6 +334,81 @@ public class LedgerServiceHelper {
         // If no transactions found for the vendor
         if (transactions.isEmpty()) {
             System.out.println("No transactions found for the specified vendor.");
+        }
+    }
+
+    // Method for a user to custom search transactions
+    public static void customSearch(Scanner scanner) {
+        // Read all transactions from the ledger file
+        List<LedgerTransaction> transactions = LedgerFileService.readAllTransactions();
+
+        System.out.println("------ Custom Search ------");
+
+        // Prompt the user to enter start date
+        System.out.print("Enter Start Date (YYYY-MM-DD) or leave blank: ");
+        String startDateInput = scanner.nextLine().trim();
+
+        // Prompt the user to enter end date
+        System.out.print("Enter End Date (YYYY-MM-DD) or leave blank: ");
+        String endDateInput = scanner.nextLine().trim();
+
+        // Prompt the user to enter description
+        System.out.print("Enter Description or leave blank: ");
+        String description = scanner.nextLine().trim().toLowerCase();
+
+        // Prompt the user to enter vendor name
+        System.out.print("Enter Vendor Name or leave blank: ");
+        String vendorName = scanner.nextLine().trim().toLowerCase();
+
+        // Prompt the user to enter amount
+        System.out.print("Enter Amount(exact) or leave blank: ");
+        String amountInput = scanner.nextLine().trim();
+
+        System.out.println("------ Search Results ------");
+
+        // Loop from newest to oldest
+        for (int i = transactions.size() - 1; i >= 0; i--) {
+            LedgerTransaction t = transactions.get(i);
+            LocalDate transactionDate = LocalDate.parse(t.getDate());
+
+            // Initialize a boolean variable to track if the transaction matches the filters
+            boolean matches = true;
+
+            // Check if start date is provided and if the transaction date is before it
+            if (!startDateInput.isEmpty()) {
+                LocalDate startDate = LocalDate.parse(startDateInput);
+                if (transactionDate.isBefore(startDate)) {
+                    matches = false;
+                }
+            }
+            // Check if end date is provided and if the transaction date is after it
+            if (!endDateInput.isEmpty()) {
+                LocalDate endDate = LocalDate.parse(endDateInput);
+                if (transactionDate.isAfter(endDate)) {
+                    matches = false;
+                }
+            }
+            // Check if description is provided and if it matches
+            if (!description.isEmpty() && !t.getDescription().toLowerCase().contains(description)) {
+                matches = false;
+            }
+            // Check if vendor name is provided and if it matches
+            if (!vendorName.isEmpty() && !t.getVendor().toLowerCase().contains(vendorName)) {
+                matches = false;
+            }
+            // Check if amount is provided and if it matches
+            if (!amountInput.isEmpty()) {
+                double amount = Double.parseDouble(amountInput);
+                if (t.getAmount() != amount) {
+                    matches = false;
+                }
+            }
+            // If all filters match, print the transaction details
+            if (matches) {
+                System.out.printf("Date: %s, Time: %s, Description: %s, Vendor: %s, Amount: %.2f%n",
+                        t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
+                System.out.println("-----------------------------------");
+            }
         }
     }
 }
