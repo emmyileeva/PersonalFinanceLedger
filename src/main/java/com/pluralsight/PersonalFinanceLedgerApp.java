@@ -40,6 +40,9 @@ public class PersonalFinanceLedgerApp {
                         System.out.println("Exiting, goodbye!");
                         running = false; // Exit the loop
                         break;
+                    default:
+                        System.out.println("Invalid choice. Please try again.");
+                        break;
                 }
             }
         } catch (Exception e) {

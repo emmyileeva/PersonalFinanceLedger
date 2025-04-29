@@ -98,6 +98,9 @@ public class LedgerServiceHelper {
                 case "H":
                     ledger = false; // Exit the ledger loop
                     break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+                    break;
             }
         }
     }
@@ -201,6 +204,9 @@ public class LedgerServiceHelper {
                     break;
                 case "H":
                     return true; // Go back to the home screen
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+                    break;
             }
         }
         return false; // Return to the previous menu
