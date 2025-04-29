@@ -385,10 +385,32 @@ public class LedgerServiceHelper {
         // Prompt the user to enter start date
         System.out.print("Enter Start Date (YYYY-MM-DD) or leave blank: ");
         String startDateInput = scanner.nextLine().trim();
+        // Initialize start date to null
+        LocalDate startDate = null;
+        // If the user provided a start date, parse it
+        if (!startDateInput.isEmpty()) {
+            try {
+                startDate = LocalDate.parse(startDateInput);
+            } catch (Exception e) {
+                System.out.println("Invalid date format. Please use YYYY-MM-DD.");
+                return; // Exit the method if the date format is invalid
+            }
+        }
 
         // Prompt the user to enter end date
         System.out.print("Enter End Date (YYYY-MM-DD) or leave blank: ");
         String endDateInput = scanner.nextLine().trim();
+        // Initialize end date to null
+        LocalDate endDate = null;
+        // If the user provided an end date, parse it
+        if (!endDateInput.isEmpty()) {
+            try {
+                endDate = LocalDate.parse(endDateInput);
+            } catch (Exception e) {
+                System.out.println("Invalid date format. Please use YYYY-MM-DD.");
+                return; // Exit the method if the date format is invalid
+            }
+        }
 
         // Prompt the user to enter description
         System.out.print("Enter Description or leave blank: ");
@@ -401,6 +423,17 @@ public class LedgerServiceHelper {
         // Prompt the user to enter amount
         System.out.print("Enter Amount(exact) or leave blank: ");
         String amountInput = scanner.nextLine().trim();
+        // Initialize amount to null
+        Double amount = null;
+        // If the user provided an amount, parse it
+        if (!amountInput.isEmpty()) {
+            try {
+                amount = Double.parseDouble(amountInput);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid amount format. Please enter a valid number.");
+                return; // Exit the method if the amount format is invalid
+            }
+        }
 
         System.out.println("------ Search Results ------");
 
@@ -413,18 +446,12 @@ public class LedgerServiceHelper {
             boolean matches = true;
 
             // Check if start date is provided and if the transaction date is before it
-            if (!startDateInput.isEmpty()) {
-                LocalDate startDate = LocalDate.parse(startDateInput);
-                if (transactionDate.isBefore(startDate)) {
-                    matches = false;
-                }
+            if (startDate != null && transactionDate.isBefore(startDate)) {
+                matches = false;
             }
             // Check if end date is provided and if the transaction date is after it
-            if (!endDateInput.isEmpty()) {
-                LocalDate endDate = LocalDate.parse(endDateInput);
-                if (transactionDate.isAfter(endDate)) {
-                    matches = false;
-                }
+            if (endDate != null && transactionDate.isAfter(endDate)) {
+                matches = false;
             }
             // Check if description is provided and if it matches
             if (!description.isEmpty() && !t.getDescription().toLowerCase().contains(description)) {
@@ -435,11 +462,8 @@ public class LedgerServiceHelper {
                 matches = false;
             }
             // Check if amount is provided and if it matches
-            if (!amountInput.isEmpty()) {
-                double amount = Double.parseDouble(amountInput);
-                if (t.getAmount() != amount) {
-                    matches = false;
-                }
+            if (amount != null && t.getAmount() != amount) {
+                matches = false;
             }
             // If all filters match, print the transaction details
             if (matches) {
