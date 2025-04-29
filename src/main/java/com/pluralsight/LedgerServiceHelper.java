@@ -190,7 +190,7 @@ public class LedgerServiceHelper {
                     viewPreviousYearTransactions();
                     break;
                 case "5":
-                    // Search by Vendor logic
+                    searchByVendor(scanner);
                     break;
                 case "0":
                     reports = false; // Go back to the ledger menu
@@ -306,7 +306,30 @@ public class LedgerServiceHelper {
     }
 
     // Method to search by vendor
-    public static void searchByVendor() {
-        // Search by Vendor logic
+    public static void searchByVendor(Scanner scanner) {
+        // Read all transactions from the ledger file
+        List<LedgerTransaction> transactions = LedgerFileService.readAllTransactions();
+
+        // Prompt the user for vendor name
+        System.out.print("Enter vendor name to search: ");
+        String vendorName = scanner.nextLine().trim().toLowerCase();
+
+        System.out.println("------ Transactions for Vendor: " + vendorName + " ------");
+
+        // Loop from newest to oldest
+        for (int i = transactions.size() - 1; i >= 0; i--) {
+            LedgerTransaction t = transactions.get(i);
+            // Check if the transaction vendor matches the search term
+            if (t.getVendor().toLowerCase().contains(vendorName)) {
+                // Print transaction details
+                System.out.printf("Date: %s, Time: %s, Description: %s, Vendor: %s, Amount: %.2f%n",
+                        t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
+                System.out.println("-----------------------------------");
+            }
+        }
+        // If no transactions found for the vendor
+        if (transactions.isEmpty()) {
+            System.out.println("No transactions found for the specified vendor.");
+        }
     }
 }
