@@ -1,5 +1,4 @@
 package com.pluralsight;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -181,7 +180,7 @@ public class LedgerServiceHelper {
                     viewMonthToDateTransactions();
                     break;
                 case "2":
-                    // Previous Month logic
+                    viewPreviousMonthTransactions();
                     break;
                 case "3":
                     // Year to Date logic
@@ -219,6 +218,36 @@ public class LedgerServiceHelper {
             // Check if the transaction date is within the current month
             if (transactionDate.getMonth() == now.getMonth() &&
                     transactionDate.getYear() == now.getYear()) {
+                // Print transaction details
+                System.out.printf("Date: %s, Time: %s, Description: %s, Vendor: %s, Amount: %.2f%n",
+                        t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
+                System.out.println("-----------------------------------");
+            }
+        }
+    }
+
+    // Method to view previous month transactions
+    public static void viewPreviousMonthTransactions() {
+        // Read all transactions from the ledger file
+        List<LedgerTransaction> transactions = LedgerFileService.readAllTransactions();
+        // Get the current date and time
+        LocalDateTime now = LocalDateTime.now();
+
+        // Calculate the previous month and year using minusMonths
+        LocalDate previousMonth = now.minusMonths(1).toLocalDate();
+        int previousMonthValue = previousMonth.getMonthValue();
+        int previousYearValue = previousMonth.getYear();
+
+        System.out.println("------ Previous Month Transactions ------");
+
+        // Loop from newest to oldest
+        for (int i = transactions.size() - 1; i >= 0; i--) {
+            LedgerTransaction t = transactions.get(i);
+            LocalDate transactionDate = LocalDate.parse(t.getDate());
+
+            // Check if the transaction date is within the previous month
+            if (transactionDate.getMonthValue() == previousMonthValue &&
+                    transactionDate.getYear() == previousYearValue) {
                 // Print transaction details
                 System.out.printf("Date: %s, Time: %s, Description: %s, Vendor: %s, Amount: %.2f%n",
                         t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
