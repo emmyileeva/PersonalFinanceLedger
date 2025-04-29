@@ -18,9 +18,25 @@ public class LedgerServiceHelper {
         System.out.print("Enter vendor name: ");
         String vendor = scanner.nextLine();
 
-        // Prompt the user for deposit amount
-        System.out.print("Enter deposit amount: ");
-        double depositAmount = Double.parseDouble(scanner.nextLine());
+        // Validate the deposit amount
+        double depositAmount = 0;
+        // Loop until a valid deposit amount is entered
+        while (true) {
+            // Prompt the user for deposit amount
+            System.out.print("Enter deposit amount: ");
+            String input = scanner.nextLine();
+            try {
+                // Parse the input to a double
+                depositAmount = Double.parseDouble(input);
+                if (depositAmount <= 0) {
+                    System.out.println("Deposit amount must be greater than zero. Please try again.");
+                } else {
+                    break; // Exit the loop if the input is valid
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid number.");
+            }
+        }
 
         // Get the current date and time
         LocalDateTime depositDateTime = LocalDateTime.now();
@@ -45,9 +61,25 @@ public class LedgerServiceHelper {
         System.out.print("Enter vendor name: ");
         String vendor = scanner.nextLine();
 
-        // Prompt the user for payment amount
-        System.out.print("Enter payment amount: ");
-        double paymentAmount = Double.parseDouble(scanner.nextLine());
+        // Validate the payment amount
+        double paymentAmount = 0;
+        // Loop until a valid payment amount is entered
+        while (true) {
+            // Prompt the user for payment amount
+            System.out.print("Enter payment amount: ");
+            String input = scanner.nextLine();
+            try {
+                // Parse the input to a double
+                paymentAmount = Double.parseDouble(input);
+                if (paymentAmount <= 0) {
+                    System.out.println("Payment amount must be greater than zero. Please try again.");
+                } else {
+                    break; // Exit the loop if the input is valid
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid number.");
+            }
+        }
 
         // Get the current date and time
         LocalDateTime paymentDateTime = LocalDateTime.now();
