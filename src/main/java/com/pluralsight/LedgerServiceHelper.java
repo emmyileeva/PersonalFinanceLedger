@@ -241,6 +241,7 @@ public class LedgerServiceHelper {
             System.out.println("|   4) Previous Year                      |");
             System.out.println("|   5) Search by Vendor                   |");
             System.out.println("|   6) Custom Search                      |");
+            System.out.println("|   7) Summary Reports                    |");
             System.out.println("|   0) Back to Ledger Menu                |");
             System.out.println("|   H) Back to Home Screen                |");
             System.out.println("===========================================");
@@ -268,6 +269,9 @@ public class LedgerServiceHelper {
                     break;
                 case "6":
                     customSearch(scanner);
+                    break;
+                case "7":
+                    viewSummaryReport();
                     break;
                 case "0":
                     reports = false; // Go back to the ledger menu
@@ -560,5 +564,43 @@ public class LedgerServiceHelper {
                 System.out.println("-----------------------------------");
             }
         }
+    }
+    // Method to create summary reports
+    public static void viewSummaryReport() {
+
+        // Read all transactions from the ledger file
+        List<LedgerTransaction> transactions = LedgerFileService.readAllTransactions();
+
+        // Initialize variables for total deposits and total expenses
+        double totalDeposits = 0.0; // holds all positive transactions
+        double totalPayments = 0.0; // holds all negative transactions
+
+        // Loop through all transactions from newest to oldest
+        for (int i = transactions.size() - 1; i >= 0; i--) {
+            LedgerTransaction t = transactions.get(i);
+            // Check if the transaction amount is positive (deposit)
+            if (t.getAmount() > 0) {
+                totalDeposits += t.getAmount(); // Add to total deposits
+            } else {
+                totalPayments += t.getAmount(); // Add to total expenses
+            }
+        }
+
+        // Calculate total balance
+        double totalBalance = totalDeposits + totalPayments;
+
+        // Display the summary report header
+        System.out.println("===========================================");
+        System.out.println("           📊 Summary Report              ");
+        System.out.println("===========================================");
+
+        // Print the summary report in a formatted table
+        System.out.printf("| %-25s | %-15s |\n", "Category", "Amount (USD)");
+        System.out.println("-------------------------------------------");
+        System.out.printf("| %-25s | %15.2f |\n", "💰 Total Deposits", totalDeposits);
+        System.out.printf("| %-25s | %15.2f |\n", "🛒 Total Payments", totalPayments);
+        System.out.println("-------------------------------------------");
+        System.out.printf("| %-25s | %15.2f |\n", "📋 Total Balance", totalBalance);
+        System.out.println("===========================================");
     }
 }
