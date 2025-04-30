@@ -18,3 +18,32 @@ A Java-based CLI application that helps users track deposits, payments, and gene
 - ✅ Input validation and error handling
 - 📁 All transactions saved to `transactions.csv`
 
+## 🖼️ Screenshots
+
+### 🏠 Home Menu
+Main menu with options to add deposits, make payments, view ledger, or generate reports.
+![Home Menu](screenshots/home-menu.png)
+
+---
+
+### 📒 Ledger Menu
+Filter transactions or navigate to the reports section.
+![Ledger Menu](screenshots/ledger-menu.png)
+
+---
+
+### 📈 Reports Menu
+Options to generate reports by date, vendor, or run a summary.
+![Reports Menu](screenshots/reports-menu.png)
+
+---
+
+### 🔍 Custom Search
+Filter by any combination of start date, end date, description, vendor, or amount.
+![Custom Search](screenshots/custom-search.png)
+
+---
+
+### 📊 Summary Report
+Displays total deposits, payments, and net balance in a formatted output.
+![Summary Report](screenshots/summary-report.png)
