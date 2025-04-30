@@ -35,9 +35,9 @@ public class LedgerFileService {
                     transaction.getAmount());
             // Write the transaction line to the file
             writer.write(transactionLine + "\n");
-            System.out.println("Transaction saved successfully to: " + FILE_NAME);
+            System.out.println("✅ Transaction saved successfully to: " + FILE_NAME);
         } catch (IOException e) {
-            System.out.println("An error occurred while saving the transaction.");
+            System.out.println("❌ An error occurred while saving the transaction.");
             e.printStackTrace();
         }
     }
@@ -67,7 +67,7 @@ public class LedgerFileService {
                 }
             }
         } catch (IOException e) {
-            System.out.println("An error occurred while reading transactions from: " + FILE_NAME);
+            System.out.println("❌ An error occurred while reading transactions from: " + FILE_NAME);
             e.printStackTrace();
         }
 

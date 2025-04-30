@@ -40,11 +40,11 @@ public class PersonalFinanceLedgerApp {
                         handleViewLedger(scanner);
                         break;
                     case "X":
-                        System.out.println("Exiting, goodbye!");
+                        System.out.println("Exiting, goodbye! 👋");
                         running = false; // Exit the loop
                         break;
                     default:
-                        System.out.println("Invalid choice. Please try again.");
+                        System.out.println("❌ Invalid choice. Please try again.");
                         break;
                 }
             }

@@ -10,12 +10,16 @@ public class LedgerServiceHelper {
     // Method to handle adding a deposit
     public static void handleAddDeposit(Scanner scanner) {
 
+        System.out.println("===========================================");
+        System.out.println("           💰 Add Deposit                 ");
+        System.out.println("===========================================");
+
         // Prompt the user for deposit details
-        System.out.print("Enter deposit description: ");
+        System.out.print("📝 Enter deposit description: ");
         String description = scanner.nextLine();
 
         // Prompt the user for vendor details
-        System.out.print("Enter vendor name: ");
+        System.out.print("🏢 Enter vendor name: ");
         String vendor = scanner.nextLine();
 
         // Validate the deposit amount
@@ -23,18 +27,18 @@ public class LedgerServiceHelper {
         // Loop until a valid deposit amount is entered
         while (true) {
             // Prompt the user for deposit amount
-            System.out.print("Enter deposit amount: ");
+            System.out.print("💵 Enter deposit amount: ");
             String input = scanner.nextLine();
             try {
                 // Parse the input to a double
                 depositAmount = Double.parseDouble(input);
                 if (depositAmount <= 0) {
-                    System.out.println("Deposit amount must be greater than zero. Please try again.");
+                    System.out.println("❌ Deposit amount must be greater than zero. Please try again.");
                 } else {
                     break; // Exit the loop if the input is valid
                 }
             } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a valid number.");
+                System.out.println("❌ Invalid input. Please enter a valid number.");
             }
         }
 
@@ -53,12 +57,16 @@ public class LedgerServiceHelper {
     // Method to handle making a payment
     public static void handleMakePayment(Scanner scanner) {
 
+        System.out.println("===========================================");
+        System.out.println("           🛒 Make Payment                ");
+        System.out.println("===========================================");
+
         // Prompt the user for payment details
-        System.out.print("Enter payment description: ");
+        System.out.print("📝 Enter payment description: ");
         String description = scanner.nextLine();
 
         // Prompt the user for vendor details
-        System.out.print("Enter vendor name: ");
+        System.out.print("🏢 Enter vendor name: ");
         String vendor = scanner.nextLine();
 
         // Validate the payment amount
@@ -66,18 +74,18 @@ public class LedgerServiceHelper {
         // Loop until a valid payment amount is entered
         while (true) {
             // Prompt the user for payment amount
-            System.out.print("Enter payment amount: ");
+            System.out.print("💵 Enter payment amount: ");
             String input = scanner.nextLine();
             try {
                 // Parse the input to a double
                 paymentAmount = Double.parseDouble(input);
                 if (paymentAmount <= 0) {
-                    System.out.println("Payment amount must be greater than zero. Please try again.");
+                    System.out.println("❌  Payment amount must be greater than zero. Please try again.");
                 } else {
                     break; // Exit the loop if the input is valid
                 }
             } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a valid number.");
+                System.out.println("❌  Invalid input. Please enter a valid number.");
             }
         }
 
@@ -134,7 +142,7 @@ public class LedgerServiceHelper {
                     ledger = false; // Exit the ledger loop
                     break;
                 default:
-                    System.out.println("Invalid choice. Please try again.");
+                    System.out.println("❌ Invalid choice. Please try again.");
                     break;
             }
         }
@@ -145,17 +153,25 @@ public class LedgerServiceHelper {
         // Read all transactions from the ledger file
         List<LedgerTransaction> transactions = LedgerFileService.readAllTransactions();
 
-        System.out.println("------ All Transactions ------");
+        // Display the header for all transactions
+        System.out.println("===========================================");
+        System.out.println("           📒 All Transactions            ");
+        System.out.println("===========================================");
+
+        // Print the table header
+        System.out.printf("| %-12s | %-8s | %-20s | %-15s | %-10s |\n",
+                "Date", "Time", "Description", "Vendor", "Amount");
+        System.out.println("-------------------------------------------------------------");
 
         // Loop from newest to oldest
         for (int i = transactions.size() - 1; i >= 0; i--) {
             LedgerTransaction t = transactions.get(i);
 
-            // Print transaction details
-            System.out.printf("Date: %s, Time: %s, Description: %s, Vendor: %s, Amount: %.2f%n",
+            // Print transaction details in a formatted table
+            System.out.printf("| %-12s | %-8s | %-20s | %-15s | %10.2f |\n",
                     t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
-            System.out.println("-----------------------------------");
         }
+        System.out.println("===========================================");
     }
 
     // Method to handle viewing deposits only
@@ -163,17 +179,25 @@ public class LedgerServiceHelper {
         // Read deposits only from the ledger file
         List<LedgerTransaction> deposits = LedgerFileService.readDepositsOnly();
 
-        System.out.println("------ Deposits Only ------");
+        // Display the header for deposits only
+        System.out.println("===========================================");
+        System.out.println("           💰 Deposits Only               ");
+        System.out.println("===========================================");
+
+        // Print the table header
+        System.out.printf("| %-12s | %-8s | %-20s | %-15s | %-10s |\n",
+                "Date", "Time", "Description", "Vendor", "Amount");
+        System.out.println("-------------------------------------------------------------");
 
         // Loop from newest to oldest
         for (int i = deposits.size() - 1; i >= 0; i--) {
             LedgerTransaction t = deposits.get(i);
 
-            // Print deposit details
-            System.out.printf("Date: %s, Time: %s, Description: %s, Vendor: %s, Amount: %.2f%n",
+            // Print deposit details in a formatted table
+            System.out.printf("| %-12s | %-8s | %-20s | %-15s | %10.2f |\n",
                     t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
-            System.out.println("-----------------------------------");
         }
+        System.out.println("===========================================");
     }
 
     // Method to handle viewing payments only
@@ -181,17 +205,25 @@ public class LedgerServiceHelper {
         // Read payments only from the ledger file
         List<LedgerTransaction> payments = LedgerFileService.readPaymentsOnly();
 
-        System.out.println("------ Payments Only ------");
+        // Display the header for payments only
+        System.out.println("===========================================");
+        System.out.println("           🛒 Payments Only               ");
+        System.out.println("===========================================");
+
+        // Print the table header
+        System.out.printf("| %-12s | %-8s | %-20s | %-15s | %-10s |\n",
+                "Date", "Time", "Description", "Vendor", "Amount");
+        System.out.println("-------------------------------------------------------------");
 
         // Loop from newest to oldest
         for (int i = payments.size() - 1; i >= 0; i--) {
             LedgerTransaction t = payments.get(i);
 
-            // Print payment details
-            System.out.printf("Date: %s, Time: %s, Description: %s, Vendor: %s, Amount: %.2f%n",
+            // Print payment details in a formatted table
+            System.out.printf("| %-12s | %-8s | %-20s | %-15s | %10.2f |\n",
                     t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
-            System.out.println("-----------------------------------");
         }
+        System.out.println("===========================================");
     }
 
     // Method to handle reports
@@ -243,7 +275,7 @@ public class LedgerServiceHelper {
                 case "H":
                     return true; // Go back to the home screen
                 default:
-                    System.out.println("Invalid choice. Please try again.");
+                    System.out.println("❌ Invalid choice. Please try again.");
                     break;
             }
         }
@@ -257,7 +289,15 @@ public class LedgerServiceHelper {
         // Get the current date and time
         LocalDateTime now = LocalDateTime.now();
 
-        System.out.println("------ Month to Date Transactions ------");
+        // Display the header for month-to-date transactions
+        System.out.println("===========================================");
+        System.out.println("       📅 Month-to-Date Transactions       ");
+        System.out.println("===========================================");
+
+        // Print the table header
+        System.out.printf("| %-12s | %-8s | %-20s | %-15s | %-10s |\n",
+                "Date", "Time", "Description", "Vendor", "Amount");
+        System.out.println("-------------------------------------------------------------");
 
         // Loop from newest to oldest
         for (int i = transactions.size() - 1; i >= 0; i--) {
@@ -267,12 +307,12 @@ public class LedgerServiceHelper {
             // Check if the transaction date is within the current month
             if (transactionDate.getMonth() == now.getMonth() &&
                     transactionDate.getYear() == now.getYear()) {
-                // Print transaction details
-                System.out.printf("Date: %s, Time: %s, Description: %s, Vendor: %s, Amount: %.2f%n",
+                // Print transaction details in a formatted table
+                System.out.printf("| %-12s | %-8s | %-20s | %-15s | %10.2f |\n",
                         t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
-                System.out.println("-----------------------------------");
             }
         }
+        System.out.println("===========================================");
     }
 
     // Method to view previous month transactions
@@ -287,7 +327,15 @@ public class LedgerServiceHelper {
         int previousMonthValue = previousMonth.getMonthValue();
         int previousYearValue = previousMonth.getYear();
 
-        System.out.println("------ Previous Month Transactions ------");
+        // Display the header for previous month transactions
+        System.out.println("===========================================");
+        System.out.println("       📅 Previous Month Transactions      ");
+        System.out.println("===========================================");
+
+        // Print the table header
+        System.out.printf("| %-12s | %-8s | %-20s | %-15s | %-10s |\n",
+                "Date", "Time", "Description", "Vendor", "Amount");
+        System.out.println("-------------------------------------------------------------");
 
         // Loop from newest to oldest
         for (int i = transactions.size() - 1; i >= 0; i--) {
@@ -297,12 +345,12 @@ public class LedgerServiceHelper {
             // Check if the transaction date is within the previous month
             if (transactionDate.getMonthValue() == previousMonthValue &&
                     transactionDate.getYear() == previousYearValue) {
-                // Print transaction details
-                System.out.printf("Date: %s, Time: %s, Description: %s, Vendor: %s, Amount: %.2f%n",
+                // Print transaction details in a formatted table
+                System.out.printf("| %-12s | %-8s | %-20s | %-15s | %10.2f |\n",
                         t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
-                System.out.println("-----------------------------------");
             }
         }
+        System.out.println("===========================================");
     }
 
     // Method to view year-to-date transactions
@@ -312,7 +360,15 @@ public class LedgerServiceHelper {
         // Get the current year
         int currentYear = LocalDate.now().getYear();
 
-        System.out.println("------ Year to Date Transactions ------");
+        // Display the header for year-to-date transactions
+        System.out.println("===========================================");
+        System.out.println("        📅 Year-to-Date Transactions       ");
+        System.out.println("===========================================");
+
+        // Print the table header
+        System.out.printf("| %-12s | %-8s | %-20s | %-15s | %-10s |\n",
+                "Date", "Time", "Description", "Vendor", "Amount");
+        System.out.println("-------------------------------------------------------------");
 
         // Loop from newest to oldest
         for (int i = transactions.size() - 1; i >= 0; i--) {
@@ -321,12 +377,12 @@ public class LedgerServiceHelper {
 
             // Check if the transaction date is within the current year
             if (transactionDate.getYear() == currentYear) {
-                // Print transaction details
-                System.out.printf("Date: %s, Time: %s, Description: %s, Vendor: %s, Amount: %.2f%n",
+                // Print transaction details in a formatted table
+                System.out.printf("| %-12s | %-8s | %-20s | %-15s | %10.2f |\n",
                         t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
-                System.out.println("-----------------------------------");
             }
         }
+        System.out.println("===========================================");
     }
 
     // Method to view previous year transactions
@@ -336,7 +392,15 @@ public class LedgerServiceHelper {
         // Get the previous year
         int previousYear = LocalDate.now().getYear() - 1;
 
-        System.out.println("------ Previous Year Transactions ------");
+        // Display the header for previous year transactions
+        System.out.println("===========================================");
+        System.out.println("       📅 Previous Year Transactions       ");
+        System.out.println("===========================================");
+
+        // Print the table header
+        System.out.printf("| %-12s | %-8s | %-20s | %-15s | %-10s |\n",
+                "Date", "Time", "Description", "Vendor", "Amount");
+        System.out.println("-------------------------------------------------------------");
 
         // Loop from newest to oldest
         for (int i = transactions.size() - 1; i >= 0; i--) {
@@ -345,12 +409,12 @@ public class LedgerServiceHelper {
 
             // Check if the transaction date is within the previous year
             if (transactionDate.getYear() == previousYear) {
-                // Print transaction details
-                System.out.printf("Date: %s, Time: %s, Description: %s, Vendor: %s, Amount: %.2f%n",
+                // Print transaction details in a formatted table
+                System.out.printf("| %-12s | %-8s | %-20s | %-15s | %10.2f |\n",
                         t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
-                System.out.println("-----------------------------------");
             }
         }
+        System.out.println("===========================================");
     }
 
     // Method to search by vendor
@@ -358,26 +422,33 @@ public class LedgerServiceHelper {
         // Read all transactions from the ledger file
         List<LedgerTransaction> transactions = LedgerFileService.readAllTransactions();
 
+        // Display the header for vendor search
+        System.out.println("===========================================");
+        System.out.println("           🔍 Search by Vendor             ");
+        System.out.println("===========================================");
+
         // Prompt the user for vendor name
-        System.out.print("Enter vendor name to search: ");
+        System.out.print("👉 Enter vendor name to search: ");
         String vendorName = scanner.nextLine().trim().toLowerCase();
 
-        System.out.println("------ Transactions for Vendor: " + vendorName + " ------");
+        // Print the table header
+        System.out.printf("| %-12s | %-8s | %-20s | %-15s | %-10s |\n",
+                "Date", "Time", "Description", "Vendor", "Amount");
+        System.out.println("-------------------------------------------------------------");
 
         // Loop from newest to oldest
         for (int i = transactions.size() - 1; i >= 0; i--) {
             LedgerTransaction t = transactions.get(i);
             // Check if the transaction vendor matches the search term
             if (t.getVendor().toLowerCase().contains(vendorName)) {
-                // Print transaction details
-                System.out.printf("Date: %s, Time: %s, Description: %s, Vendor: %s, Amount: %.2f%n",
+                // Print transaction details in a formatted table
+                System.out.printf("| %-12s | %-8s | %-20s | %-15s | %10.2f |\n",
                         t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
-                System.out.println("-----------------------------------");
             }
         }
         // If no transactions found for the vendor
         if (transactions.isEmpty()) {
-            System.out.println("No transactions found for the specified vendor.");
+            System.out.println("❌ No transactions found for the specified vendor.");
         }
     }
 
@@ -386,10 +457,13 @@ public class LedgerServiceHelper {
         // Read all transactions from the ledger file
         List<LedgerTransaction> transactions = LedgerFileService.readAllTransactions();
 
-        System.out.println("------ Custom Search ------");
+        // Display the header for custom search
+        System.out.println("===========================================");
+        System.out.println("           🔍 Custom Search                ");
+        System.out.println("===========================================");
 
         // Prompt the user to enter start date
-        System.out.print("Enter Start Date (YYYY-MM-DD) or leave blank: ");
+        System.out.print("👉 Enter Start Date (YYYY-MM-DD) or leave blank: ");
         String startDateInput = scanner.nextLine().trim();
         // Initialize start date to null
         LocalDate startDate = null;
@@ -398,13 +472,13 @@ public class LedgerServiceHelper {
             try {
                 startDate = LocalDate.parse(startDateInput);
             } catch (Exception e) {
-                System.out.println("Invalid date format. Please use YYYY-MM-DD.");
+                System.out.println("❌ Invalid date format. Please use YYYY-MM-DD.");
                 return; // Exit the method if the date format is invalid
             }
         }
 
         // Prompt the user to enter end date
-        System.out.print("Enter End Date (YYYY-MM-DD) or leave blank: ");
+        System.out.print("👉 Enter End Date (YYYY-MM-DD) or leave blank: ");
         String endDateInput = scanner.nextLine().trim();
         // Initialize end date to null
         LocalDate endDate = null;
@@ -413,21 +487,21 @@ public class LedgerServiceHelper {
             try {
                 endDate = LocalDate.parse(endDateInput);
             } catch (Exception e) {
-                System.out.println("Invalid date format. Please use YYYY-MM-DD.");
+                System.out.println("❌ Invalid date format. Please use YYYY-MM-DD.");
                 return; // Exit the method if the date format is invalid
             }
         }
 
         // Prompt the user to enter description
-        System.out.print("Enter Description or leave blank: ");
+        System.out.print("👉 Enter Description or leave blank: ");
         String description = scanner.nextLine().trim().toLowerCase();
 
         // Prompt the user to enter vendor name
-        System.out.print("Enter Vendor Name or leave blank: ");
+        System.out.print("👉 Enter Vendor Name or leave blank: ");
         String vendorName = scanner.nextLine().trim().toLowerCase();
 
         // Prompt the user to enter amount
-        System.out.print("Enter Amount(exact) or leave blank: ");
+        System.out.print("👉 Enter Amount (exact) or leave blank: ");
         String amountInput = scanner.nextLine().trim();
         // Initialize amount to null
         Double amount = null;
@@ -436,12 +510,20 @@ public class LedgerServiceHelper {
             try {
                 amount = Double.parseDouble(amountInput);
             } catch (NumberFormatException e) {
-                System.out.println("Invalid amount format. Please enter a valid number.");
+                System.out.println("❌ Invalid amount format. Please enter a valid number.");
                 return; // Exit the method if the amount format is invalid
             }
         }
 
-        System.out.println("------ Search Results ------");
+        // Print the table header
+        System.out.println("===========================================");
+        System.out.println("           📋 Search Results               ");
+        System.out.println("===========================================");
+
+        // Print the table header
+        System.out.printf("| %-12s | %-8s | %-20s | %-15s | %-10s |\n",
+                "Date", "Time", "Description", "Vendor", "Amount");
+        System.out.println("-------------------------------------------------------------");
 
         // Loop from newest to oldest
         for (int i = transactions.size() - 1; i >= 0; i--) {
@@ -473,7 +555,7 @@ public class LedgerServiceHelper {
             }
             // If all filters match, print the transaction details
             if (matches) {
-                System.out.printf("Date: %s, Time: %s, Description: %s, Vendor: %s, Amount: %.2f%n",
+                System.out.printf("| %-12s | %-8s | %-20s | %-15s | %10.2f |\n",
                         t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
                 System.out.println("-----------------------------------");
             }
