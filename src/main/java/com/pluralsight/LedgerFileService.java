@@ -52,7 +52,7 @@ public class LedgerFileService {
             String line;
             while ((line = reader.readLine()) != null) {
                 if (line.trim().isEmpty()) {
-                    continue;
+                    continue; // This skips empty lines
                 }
                 String[] fields = line.split("\\|");
                 if (fields.length == 5) {

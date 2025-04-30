@@ -99,13 +99,16 @@ public class LedgerServiceHelper {
         boolean ledger = true;
         while (ledger) {
             // Display the ledger menu
-            System.out.println("------ View Ledger ------");
-            System.out.println("A) View All Transactions");
-            System.out.println("D) View Deposits Only");
-            System.out.println("P) View Payments Only");
-            System.out.println("R) Reports");
-            System.out.println("H) Back to Home Screen");
-            System.out.println("Choose an option: ");
+            System.out.println("===========================================");
+            System.out.println("              📒 Ledger Menu            ");
+            System.out.println("===========================================");
+            System.out.println("|   A) View All Transactions              |");
+            System.out.println("|   D) View Deposits Only                 |");
+            System.out.println("|   P) View Payments Only                 |");
+            System.out.println("|   R) Reports                            |");
+            System.out.println("|   H) Back to Home Screen                |");
+            System.out.println("===========================================");
+            System.out.print("👉 Choose an option: ");
 
             // Read the user's choice
             String choice = scanner.nextLine().trim().toUpperCase();
@@ -197,16 +200,19 @@ public class LedgerServiceHelper {
         boolean reports = true;
         while (reports) {
             // Display the reports menu
-            System.out.println("------ Reports ------");
-            System.out.println("1) Month to Date");
-            System.out.println("2) Previous Month");
-            System.out.println("3) Year to Date");
-            System.out.println("4) Previous Year");
-            System.out.println("5) Search by Vendor");
-            System.out.println("6) Custom Search");
-            System.out.println("0) Back to Ledger Menu");
-            System.out.println("H) Back to Home Screen");
-            System.out.print("Choose an option: ");
+            System.out.println("===========================================");
+            System.out.println("              📊 Reports Menu           ");
+            System.out.println("===========================================");
+            System.out.println("|   1) Month to Date                      |");
+            System.out.println("|   2) Previous Month                     |");
+            System.out.println("|   3) Year to Date                       |");
+            System.out.println("|   4) Previous Year                      |");
+            System.out.println("|   5) Search by Vendor                   |");
+            System.out.println("|   6) Custom Search                      |");
+            System.out.println("|   0) Back to Ledger Menu                |");
+            System.out.println("|   H) Back to Home Screen                |");
+            System.out.println("===========================================");
+            System.out.print("👉 Choose an option: ");
 
             // Read the user's choice
             String choice = scanner.nextLine().trim().toUpperCase();

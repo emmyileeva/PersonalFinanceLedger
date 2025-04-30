@@ -15,12 +15,15 @@ public class PersonalFinanceLedgerApp {
             while (running) {
 
                 // Display the main menu
-                System.out.println("------ Personal Finance Ledger Home Menu ------");
-                System.out.println("D) Add Deposit");
-                System.out.println("P) Make Payment (Debit)");
-                System.out.println("L) View Ledger");
-                System.out.println("X) Exit");
-                System.out.print("Choose an option: ");
+                System.out.println("===========================================");
+                System.out.println("🌟 Personal Financial Ledger Home Menu 🌟");
+                System.out.println("===========================================");
+                System.out.println("|   D) Add Deposit                        |");
+                System.out.println("|   P) Make Payment (Debit)               |");
+                System.out.println("|   L) View Ledger                        |");
+                System.out.println("|   X) Exit                               |");
+                System.out.println("===========================================");
+                System.out.print("👉 Choose an option: ");
 
                 // Read the user's choice
                 String choice = scanner.nextLine().trim().toUpperCase();
