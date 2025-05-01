@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Scanner;
 
+// This class handles user input, menu navigation, and ledger/report features.
+
 public class LedgerServiceHelper {
 
     // Method to handle adding a deposit
@@ -134,7 +136,7 @@ public class LedgerServiceHelper {
                     break;
                 case "R":
                     boolean goToHome = handleReports(scanner);
-                    if (goToHome) {
+                    if (goToHome) { // tells the ledger menu user wants to go back to the home screen
                         ledger = false; // Go back to the home screen
                     }
                     break;
@@ -165,6 +167,7 @@ public class LedgerServiceHelper {
 
         // Loop from newest to oldest
         for (int i = transactions.size() - 1; i >= 0; i--) {
+            // Store each transaction in the "t" variable
             LedgerTransaction t = transactions.get(i);
 
             // Print transaction details in a formatted table
@@ -191,6 +194,7 @@ public class LedgerServiceHelper {
 
         // Loop from newest to oldest
         for (int i = deposits.size() - 1; i >= 0; i--) {
+            // Store each transaction in the "t" variable
             LedgerTransaction t = deposits.get(i);
 
             // Print deposit details in a formatted table
@@ -217,6 +221,7 @@ public class LedgerServiceHelper {
 
         // Loop from newest to oldest
         for (int i = payments.size() - 1; i >= 0; i--) {
+            // Store each transaction in the "t" variable
             LedgerTransaction t = payments.get(i);
 
             // Print payment details in a formatted table
@@ -305,7 +310,9 @@ public class LedgerServiceHelper {
 
         // Loop from newest to oldest
         for (int i = transactions.size() - 1; i >= 0; i--) {
+            // Store each transaction in the "t" variable
             LedgerTransaction t = transactions.get(i);
+            // Parse the string t.getDate() to LocalDate
             LocalDate transactionDate = LocalDate.parse(t.getDate());
 
             // Check if the transaction date is within the current month
@@ -328,6 +335,7 @@ public class LedgerServiceHelper {
 
         // Calculate the previous month and year using minusMonths
         LocalDate previousMonth = now.minusMonths(1).toLocalDate();
+        // Grab the month number and the year
         int previousMonthValue = previousMonth.getMonthValue();
         int previousYearValue = previousMonth.getYear();
 
@@ -343,7 +351,9 @@ public class LedgerServiceHelper {
 
         // Loop from newest to oldest
         for (int i = transactions.size() - 1; i >= 0; i--) {
+            // Store each transaction in the "t" variable
             LedgerTransaction t = transactions.get(i);
+            // Parse the string t.getDate() to LocalDate
             LocalDate transactionDate = LocalDate.parse(t.getDate());
 
             // Check if the transaction date is within the previous month
@@ -376,7 +386,9 @@ public class LedgerServiceHelper {
 
         // Loop from newest to oldest
         for (int i = transactions.size() - 1; i >= 0; i--) {
+            // Store each transaction in the "t" variable
             LedgerTransaction t = transactions.get(i);
+            // Parse the string t.getDate() to LocalDate
             LocalDate transactionDate = LocalDate.parse(t.getDate());
 
             // Check if the transaction date is within the current year
@@ -408,7 +420,9 @@ public class LedgerServiceHelper {
 
         // Loop from newest to oldest
         for (int i = transactions.size() - 1; i >= 0; i--) {
+            // Store each transaction in the "t" variable
             LedgerTransaction t = transactions.get(i);
+            // Parse the string t.getDate() to LocalDate
             LocalDate transactionDate = LocalDate.parse(t.getDate());
 
             // Check if the transaction date is within the previous year
@@ -433,6 +447,7 @@ public class LedgerServiceHelper {
 
         // Prompt the user for vendor name
         System.out.print("👉 Enter vendor name to search: ");
+        // Read the vendor name from user input
         String vendorName = scanner.nextLine().trim().toLowerCase();
 
         // Print the table header
@@ -440,18 +455,23 @@ public class LedgerServiceHelper {
                 "Date", "Time", "Description", "Vendor", "Amount");
         System.out.println("-------------------------------------------------------------");
 
+        // Use a boolean flag to check if any transactions were found
+        boolean found = false;
+
         // Loop from newest to oldest
         for (int i = transactions.size() - 1; i >= 0; i--) {
+            // Store each transaction in the "t" variable
             LedgerTransaction t = transactions.get(i);
             // Check if the transaction vendor matches the search term
             if (t.getVendor().toLowerCase().contains(vendorName)) {
                 // Print transaction details in a formatted table
                 System.out.printf("| %-12s | %-8s | %-20s | %-15s | %10.2f |\n",
                         t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
+                found = true; // Set the flag to true if a match is found
             }
         }
-        // If no transactions found for the vendor
-        if (transactions.isEmpty()) {
+        // If no transactions found for the vendor, print a message
+        if (!found) {
             System.out.println("❌ No transactions found for the specified vendor.");
         }
     }
@@ -468,6 +488,7 @@ public class LedgerServiceHelper {
 
         // Prompt the user to enter start date
         System.out.print("👉 Enter Start Date (YYYY-MM-DD) or leave blank: ");
+        // Read the start date from user input
         String startDateInput = scanner.nextLine().trim();
         // Initialize start date to null
         LocalDate startDate = null;
@@ -483,6 +504,7 @@ public class LedgerServiceHelper {
 
         // Prompt the user to enter end date
         System.out.print("👉 Enter End Date (YYYY-MM-DD) or leave blank: ");
+        // Read the end date from user input
         String endDateInput = scanner.nextLine().trim();
         // Initialize end date to null
         LocalDate endDate = null;
@@ -498,14 +520,17 @@ public class LedgerServiceHelper {
 
         // Prompt the user to enter description
         System.out.print("👉 Enter Description or leave blank: ");
+        // Read the description from user input
         String description = scanner.nextLine().trim().toLowerCase();
 
         // Prompt the user to enter vendor name
         System.out.print("👉 Enter Vendor Name or leave blank: ");
+        // Read the vendor name from user input
         String vendorName = scanner.nextLine().trim().toLowerCase();
 
         // Prompt the user to enter amount
         System.out.print("👉 Enter Amount (exact) or leave blank: ");
+        // Read the amount from user input
         String amountInput = scanner.nextLine().trim();
         // Initialize amount to null
         Double amount = null;
@@ -531,7 +556,9 @@ public class LedgerServiceHelper {
 
         // Loop from newest to oldest
         for (int i = transactions.size() - 1; i >= 0; i--) {
+            // Store each transaction in the "t" variable
             LedgerTransaction t = transactions.get(i);
+            // Parse the transaction date from the date string to a LocalDate object
             LocalDate transactionDate = LocalDate.parse(t.getDate());
 
             // Initialize a boolean variable to track if the transaction matches the filters
@@ -553,7 +580,7 @@ public class LedgerServiceHelper {
             if (!vendorName.isEmpty() && !t.getVendor().toLowerCase().contains(vendorName)) {
                 matches = false;
             }
-            // Check if amount is provided and if it matches
+            // Check if the amount is provided and if it matches exactly
             if (amount != null && t.getAmount() != amount) {
                 matches = false;
             }
@@ -565,24 +592,25 @@ public class LedgerServiceHelper {
             }
         }
     }
+
     // Method to create summary reports
     public static void viewSummaryReport() {
-
         // Read all transactions from the ledger file
         List<LedgerTransaction> transactions = LedgerFileService.readAllTransactions();
 
-        // Initialize variables for total deposits and total expenses
+        // Initialize variables for total deposits and total payments
         double totalDeposits = 0.0; // holds all positive transactions
         double totalPayments = 0.0; // holds all negative transactions
 
         // Loop through all transactions from newest to oldest
         for (int i = transactions.size() - 1; i >= 0; i--) {
+            // Store each transaction in the "t" variable
             LedgerTransaction t = transactions.get(i);
             // Check if the transaction amount is positive (deposit)
             if (t.getAmount() > 0) {
                 totalDeposits += t.getAmount(); // Add to total deposits
             } else {
-                totalPayments += t.getAmount(); // Add to total expenses
+                totalPayments += t.getAmount(); // Add to total payments
             }
         }
 

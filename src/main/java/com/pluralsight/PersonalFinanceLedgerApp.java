@@ -4,6 +4,8 @@ import java.util.Scanner;
 
 import static com.pluralsight.LedgerServiceHelper.*;
 
+// This class is the starting point of the application.
+
 public class PersonalFinanceLedgerApp {
     public static void main(String[] args) {
 

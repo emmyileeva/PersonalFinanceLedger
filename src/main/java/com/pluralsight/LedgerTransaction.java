@@ -1,12 +1,16 @@
 package com.pluralsight;
 
+// This class represents one transaction in the ledger (e.g., a deposit or payment).
+
 public class LedgerTransaction {
+    // Instance variables to store transaction details
     private String date;
     private String time;
     private String description;
     private String vendor;
     private double amount;
 
+    // Constructor to initialize a LedgerTransaction object
     public LedgerTransaction(String date, String time, String description, String vendor, double amount) {
         this.date = date;
         this.time = time;
@@ -15,6 +19,7 @@ public class LedgerTransaction {
         this.amount = amount;
     }
 
+    // Getters and setters for each instance variable that allow other parts of the program to get or update each value
     public String getDate() {
         return date;
     }

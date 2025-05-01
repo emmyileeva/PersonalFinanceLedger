@@ -7,17 +7,19 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+// This class is responsible for all file input/output(I/O) operations related to the ledger transactions.
+
 public class LedgerFileService {
 
     // File name for storing transactions
     private static final String FILE_NAME = "transactions.csv";
 
-    // Method to add a deposit transaction
+    // Helper method that calls a common private method to save transactions
     public static void addDeposit(LedgerTransaction transaction) {
         saveTransaction(transaction);
     }
 
-    // Method to add a payment transaction
+    // Helper method that calls a common private method to save transactions
     public static void addPayment(LedgerTransaction transaction) {
         saveTransaction(transaction);
     }
@@ -56,6 +58,7 @@ public class LedgerFileService {
                 }
                 String[] fields = line.split("\\|");
                 if (fields.length == 5) {
+                    // turns each line into a LedgerTransaction object
                     LedgerTransaction transaction = new LedgerTransaction(
                             fields[0], // date
                             fields[1], // time
@@ -63,6 +66,7 @@ public class LedgerFileService {
                             fields[3], // vendor
                             Double.parseDouble(fields[4]) // amount
                     );
+                    // Adds the transaction to the list
                     transactions.add(transaction);
                 }
             }
@@ -70,7 +74,7 @@ public class LedgerFileService {
             System.out.println("❌ An error occurred while reading transactions from: " + FILE_NAME);
             e.printStackTrace();
         }
-
+        // Return the list of transactions
         return transactions;
     }
 
@@ -84,10 +88,11 @@ public class LedgerFileService {
         // Loop through all transactions and filter deposits
         for (LedgerTransaction transaction : allTransactions) {
             if (transaction.getAmount() > 0) {
+                // Add to the deposits list if the amount is positive
                 deposits.add(transaction);
             }
         }
-
+        // Return the list of deposits
         return deposits;
     }
 
@@ -101,10 +106,11 @@ public class LedgerFileService {
         // Loop through all transactions and filter payments
         for (LedgerTransaction transaction : allTransactions) {
             if (transaction.getAmount() < 0) {
+                // Add to the payments list if the amount is negative
                 payments.add(transaction);
             }
         }
-
+        // Return the list of payments
         return payments;
     }
 }
